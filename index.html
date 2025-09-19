@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Decorapro · Cotizador Distribuidores (Cortinas)</title>
+  <style>
+    :root { --bg:#0c0c0e; --card:#141417; --text:#f3f3f3; --muted:#bdbdbd; --cta:#c8a15a; }
+    body { margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif; background:var(--bg); color:var(--text); }
+    header, footer { padding:16px; text-align:center; background:linear-gradient(180deg,#111, #0c0c0e); }
+    .wrap { max-width:980px; margin:0 auto; padding:20px; }
+    .card { background:var(--card); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    label { display:block; margin:10px 0 4px; color:var(--muted); font-size:0.95rem; }
+    select, input[type="number"] {
+      width:100%; padding:12px 14px; border-radius:10px; border:1px solid #2a2a2e; background:#101013; color:#f6f6f6;
+    }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width:720px){ .row { grid-template-columns:1fr; } }
+    .muted { color:var(--muted); font-size:0.9rem; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:999px; background:#1e1e23; font-size:.85rem; color:#d8d8d8; margin-right:8px;}
+    .btn { display:inline-block; padding:12px 18px; border:none; border-radius:10px; background:var(--cta); color:#111; font-weight:700; cursor:pointer; text-decoration:none; }
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+    .total { font-size:1.7rem; font-weight:800; }
+    .warn { background:#291a1a; border-left:4px solid #e15; padding:10px 12px; border-radius:8px; margin:10px 0; }
+    .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+    .fieldset { border:1px solid #2a2a2e; border-radius:12px; padding:10px; }
+    .legend { font-size:.9rem; color:#cfcfcf; margin-bottom:8px; }
+    .small { font-size:.85rem; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Decorapro · Cotizador Distribuidores</h1>
+    <div class="muted">Cortinas · Precios orientados a distribuidores · IVA incluido</div>
+    <div id="vigencia" class="muted" style="margin-top:8px;"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <div class="muted">Selecciona confección, modelo (tela), medidas y extras. Si la altura excede la permitida del modelo, te daremos un precio aproximado y te sugeriremos asesoría.</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label>Confección</label>
+        <select id="confeccion"></select>
+      </div>
+      <div>
+        <label>Modelo / Tela</label>
+        <select id="modelo"></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Ancho (m) · entero 1–6</label>
+        <select id="ancho">
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+        </select>
+      </div>
+      <div>
+        <label>Altura (m)</label>
+        <input id="alto" type="number" min="1" step="0.01" value="2.40" />
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="legend">Cortinero (precio por metro lineal · usa el ancho elegido)</div>
+    <div class="row">
+      <div>
+        <label>Tipo de cortinero</label>
+        <select id="cortinero">
+          <option value="">— Sin cortinero —</option>
+        </select>
+      </div>
+      <div>
+        <label>Color</label>
+        <select id="color">
+          <option value="">— N/A —</option>
+          <option>Blanco</option>
+          <option>Negro</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="legend">Motorización (precio por pieza) + extras opcionales</div>
+    <div class="row">
+      <div>
+        <label>Riel motorizado</label>
+        <select id="motorizacion">
+          <option value="">— Sin motorización —</option>
+        </select>
+      </div>
+      <div>
+        <label>Extras</label>
+        <div class="grid3">
+          <label class="small"><input type="checkbox" class="extra" value="vti_hub"> Vti Smart Hub (+$1,100)</label>
+          <label class="small"><input type="checkbox" class="extra" value="hub_plus"> Vti Smart Hub Plus (+$3,000)</label>
+          <label class="small"><input type="checkbox" class="extra" value="charger"> Cargador (+$300)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="legend">Accesorios (por pieza)</div>
+    <div class="grid3">
+      <div class="fieldset">
+        <div>Bracket noche/día</div>
+        <input type="number" min="0" value="0" id="acc_bracket" /> <span class="small muted">pzas · $70</span>
+      </div>
+      <div class="fieldset">
+        <div>Splice / empalme</div>
+        <input type="number" min="0" value="0" id="acc_splice" /> <span class="small muted">pzas · $85</span>
+      </div>
+      <div class="fieldset">
+        <div>Codo 90°</div>
+        <input type="number" min="0" value="0" id="acc_codo" /> <span class="small muted">pzas · $900</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="alerta" class="warn" style="display:none;"></div>
+    <div class="row">
+      <div>
+        <div class="muted">Desglose</div>
+        <div id="desglose" class="small"></div>
+      </div>
+      <div>
+        <div class="muted">Total estimado</div>
+        <div class="total" id="total">$0.00</div>
+        <a id="wa" class="btn" href="#" target="_blank" rel="noopener">Enviar a WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card muted small">
+    Precios de referencia. El precio final se calcula con el cotizador y tiene variaciones por decimales (no saltos cada metro). IVA incluido. Mínimo a cobrar 1×1 m por cortina.
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="badge">Decorapro</span>
+    <span class="badge">Vertical Art</span>
+    <span class="badge">Distribuidores</span>
+  </div>
+</footer>
+
+<script>
+/** Dataset de ejemplo (recortado) — fuente: lista de precios 2025. */
+const DATA = {
+  confecciones: [
+    {
+      id: 'plisado_frances',
+      nombre: 'Plisado Francés (3 Plitz)',
+      modelos: [
+        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1485,2:2835,3:4184,4:5534,5:6884,6:8234} },
+        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1074,2:2051,3:3027,4:4003,5:4980,6:5956} },
+        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:913, 2:1744,3:2574,4:3404,5:4234,6:5064} }
+      ]
+    },
+    {
+      id: 'onda_perfecta',
+      nombre: 'Onda Perfecta',
+      modelos: [
+        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1663,2:3175,3:4687,4:6198,5:7710,6:9222} },
+        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1203,2:2297,3:3390,4:4484,5:5577,6:6671} },
+        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:1023,2:1953,3:2883,4:3812,5:4742,6:5672} }
+      ]
+    },
+    {
+      id: 'ojillos',
+      nombre: 'Ojillos',
+      modelos: [
+        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1856,2:3543,3:5231,4:6918,5:8605,6:10292} },
+        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1343,2:2563,3:3784,4:5004,5:6225,6:7445} },
+        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:1142,2:2179,3:3217,4:4255,5:5293,6:6331} }
+      ]
+    }
+  ],
+  cortineros: [
+    { id:'cuadrado_techo', nombre:'Cuadrado · Techo', precioML:360 },
+    { id:'cuadrado_muro',  nombre:'Cuadrado · Muro',  precioML:417 },
+    { id:'cordflex_muro',  nombre:'Cordflex · Muro',  precioML:420 },
+    { id:'cordflex_techo', nombre:'Cordflex · Techo', precioML:360 }
+  ],
+  motorizacion: [
+    { id:'riel_recto_cableado', nombre:'Riel recto · Cableado', precio:5800, maxLargo:5.8 },
+    { id:'riel_recto_rf',       nombre:'Riel recto · Radiofrecuencia', precio:6500, maxLargo:5.8 }
+  ],
+  extras: {
+    vti_hub: 1100, hub_plus: 3000, charger: 300
+  },
+  accesorios: { bracket:70, splice:85, codo90:900 }
+};
+
+// ---- UI helpers
+const $ = s => document.querySelector(s);
+const confeSel = $('#confeccion'), modSel = $('#modelo'), anchoSel = $('#ancho'), altoInp = $('#alto');
+const cortSel = $('#cortinero'), colorSel = $('#color'), motSel = $('#motorizacion');
+const accB = $('#acc_bracket'), accS = $('#acc_splice'), accC = $('#acc_codo');
+const desgloseEl = $('#desglose'), totalEl = $('#total'), alertaEl = $('#alerta'), waBtn = $('#wa');
+
+// Vigencia: último día del mes actual
+(function setVigencia(){
+  const d = new Date(), y=d.getFullYear(), m=d.getMonth()+1;
+  const last = new Date(y, m, 0).getDate();
+  $('#vigencia').textContent = `Vigencia: ${last}/${m.toString().padStart(2,'0')}/${y} · Se actualiza automáticamente cada mes.`;
+})();
+
+// Poblar selects
+(function init(){
+  DATA.confecciones.forEach(c => {
+    const o = document.createElement('option'); o.value=c.id; o.textContent=c.nombre; confeSel.appendChild(o);
+  });
+  DATA.cortineros.forEach(c => {
+    const o = document.createElement('option'); o.value=c.id; o.textContent=`${c.nombre} ($${c.precioML}/ml)`; cortSel.appendChild(o);
+  });
+  DATA.motorizacion.forEach(m => {
+    const o = document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} ($${m.precio})`; motSel.appendChild(o);
+  });
+  confeSel.addEventListener('change', loadModelos);
+  [modSel, anchoSel, altoInp, cortSel, colorSel, motSel, accB, accS, accC, ...document.querySelectorAll('.extra')].forEach(el => {
+    el.addEventListener('change', calc);
+  });
+  loadModelos();
+})();
+
+function loadModelos(){
+  modSel.innerHTML='';
+  const c = DATA.confecciones.find(x=>x.id===confeSel.value) || DATA.confecciones[0];
+  (c.modelos||[]).forEach(m=>{
+    const o=document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} (Alt máx ${m.alturaMax} m)`; modSel.appendChild(o);
+  });
+  calc();
+}
+
+function money(n){ return '$' + (Math.round(n*100)/100).toLocaleString('es-MX'); }
+
+function calc(){
+  const c = DATA.confecciones.find(x=>x.id===confeSel.value);
+  const m = (c?.modelos||[]).find(x=>x.id===modSel.value);
+  const ancho = Math.max(1, parseInt(anchoSel.value||'1',10));
+  const alto  = Math.max(1, parseFloat(altoInp.value||'1'));
+  let alerta = '';
+  let base = 0;
+
+  if(m && m.p[ancho]!=null){ base = m.p[ancho]; }
+  else if(m){ base = m.p[6]; } // fallback
+
+  // Altura máxima
+  let aproximado = false;
+  if(m && alto > m.alturaMax){
+    aproximado = true;
+    alerta = `La altura (${alto} m) excede la altura máxima (${m.alturaMax} m) del modelo. Mostramos un precio aproximado. Requiere asesoría personalizada.`;
+  }
+
+  // Cortinero por ML (usa ancho)
+  let cortTotal = 0;
+  if(cortSel.value){
+    const cor = DATA.cortineros.find(x=>x.id===cortSel.value);
+    if(cor){ cortTotal = cor.precioML * ancho; }
+  }
+
+  // Motorización
+  let motTotal = 0;
+  if(motSel.value){
+    const mo = DATA.motorizacion.find(x=>x.id===motSel.value);
+    if(mo){ motTotal += mo.precio; }
+    document.querySelectorAll('.extra:checked').forEach(ch=>{
+      motTotal += (DATA.extras[ch.value]||0);
+    });
+  }
+
+  // Accesorios
+  const accTotal = (parseInt(accB.value||0,10)*DATA.accesorios.bracket)
+                 + (parseInt(accS.value||0,10)*DATA.accesorios.splice)
+                 + (parseInt(accC.value||0,10)*DATA.accesorios.codo90);
+
+  const total = base + cortTotal + motTotal + accTotal;
+
+  // UI
+  alertaEl.style.display = alerta ? 'block' : 'none';
+  alertaEl.textContent = alerta;
+  desgloseEl.innerHTML = `
+    Base: <b>${money(base)}</b><br/>
+    Cortinero: <b>${money(cortTotal)}</b><br/>
+    Motorización+extras: <b>${money(motTotal)}</b><br/>
+    Accesorios: <b>${money(accTotal)}</b><br/>
+    ${aproximado ? '<span class="muted">* Precio aproximado por exceder altura máxima</span>' : ''}
+  `;
+  totalEl.textContent = money(total);
+
+  // WhatsApp
+  const tel = '5215579022386';
+  const txt = encodeURIComponent(
+`Hola Decorapro, quiero este pedido:
+Confección: ${c?.nombre||'-'}
+Modelo/tela: ${m?.nombre||'-'}
+Medidas: ${ancho} m (ancho) × ${alto} m (alto)
+Cortinero: ${cortSel.options[cortSel.selectedIndex]?.text || 'N/A'} ${colorSel.value?('· '+colorSel.value):''}
+Motorización: ${motSel.options[motSel.selectedIndex]?.text || 'N/A'}
+Accesorios: Bracket ${accB.value}, Splice ${accS.value}, Codo90 ${accC.value}
+Total: ${money(total)} ${aproximado ? '(aprox.)' : ''}
+`
+  );
+  waBtn.href = `https://wa.me/${tel}?text=${txt}`;
+}
+</script>
+</body>
+</html>
