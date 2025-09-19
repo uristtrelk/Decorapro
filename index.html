@@ -176,84 +176,41 @@
     <span class="badge">Distribuidores</span>
   </div>
 </footer>
-
 <script>
-/** Dataset de ejemplo (recortado) — fuente: lista de precios 2025. */
-const DATA = {
-  confecciones: [
-    {
-      id: 'plisado_frances',
-      nombre: 'Plisado Francés (3 Plitz)',
-      modelos: [
-        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1485,2:2835,3:4184,4:5534,5:6884,6:8234} },
-        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1074,2:2051,3:3027,4:4003,5:4980,6:5956} },
-        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:913, 2:1744,3:2574,4:3404,5:4234,6:5064} }
-      ]
-    },
-    {
-      id: 'onda_perfecta',
-      nombre: 'Onda Perfecta',
-      modelos: [
-        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1663,2:3175,3:4687,4:6198,5:7710,6:9222} },
-        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1203,2:2297,3:3390,4:4484,5:5577,6:6671} },
-        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:1023,2:1953,3:2883,4:3812,5:4742,6:5672} }
-      ]
-    },
-    {
-      id: 'ojillos',
-      nombre: 'Ojillos',
-      modelos: [
-        { id:'empire_blackout', nombre:'Empire Blackout', alturaMax:2.40, p:{1:1856,2:3543,3:5231,4:6918,5:8605,6:10292} },
-        { id:'cave_blackout',   nombre:'Cave Blackout',   alturaMax:2.40, p:{1:1343,2:2563,3:3784,4:5004,5:6225,6:7445} },
-        { id:'glory',           nombre:'Glory',           alturaMax:2.65, p:{1:1142,2:2179,3:3217,4:4255,5:5293,6:6331} }
-      ]
-    }
-  ],
-  cortineros: [
-    { id:'cuadrado_techo', nombre:'Cuadrado · Techo', precioML:360 },
-    { id:'cuadrado_muro',  nombre:'Cuadrado · Muro',  precioML:417 },
-    { id:'cordflex_muro',  nombre:'Cordflex · Muro',  precioML:420 },
-    { id:'cordflex_techo', nombre:'Cordflex · Techo', precioML:360 }
-  ],
-  motorizacion: [
-    { id:'riel_recto_cableado', nombre:'Riel recto · Cableado', precio:5800, maxLargo:5.8 },
-    { id:'riel_recto_rf',       nombre:'Riel recto · Radiofrecuencia', precio:6500, maxLargo:5.8 }
-  ],
-  extras: {
-    vti_hub: 1100, hub_plus: 3000, charger: 300
-  },
-  accesorios: { bracket:70, splice:85, codo90:900 }
-};
-
-// ---- UI helpers
 const $ = s => document.querySelector(s);
 const confeSel = $('#confeccion'), modSel = $('#modelo'), anchoSel = $('#ancho'), altoInp = $('#alto');
 const cortSel = $('#cortinero'), colorSel = $('#color'), motSel = $('#motorizacion');
 const accB = $('#acc_bracket'), accS = $('#acc_splice'), accC = $('#acc_codo');
 const desgloseEl = $('#desglose'), totalEl = $('#total'), alertaEl = $('#alerta'), waBtn = $('#wa');
 
-// Vigencia: último día del mes actual
-(function setVigencia(){
-  const d = new Date(), y=d.getFullYear(), m=d.getMonth()+1;
-  const last = new Date(y, m, 0).getDate();
-  $('#vigencia').textContent = `Vigencia: ${last}/${m.toString().padStart(2,'0')}/${y} · Se actualiza automáticamente cada mes.`;
-})();
+let DATA = null;
 
-// Poblar selects
-(function init(){
+(async function init(){
+  const r = await fetch('./data/prices.json'); 
+  DATA = await r.json();
+
+  // Vigencia auto (último día del mes)
+  (function setVigencia(){
+    const d = new Date(), y=d.getFullYear(), m=d.getMonth()+1;
+    const last = new Date(y, m, 0).getDate();
+    document.querySelector('#vigencia').textContent =
+      `Vigencia: ${last}/${String(m).padStart(2,'0')}/${y} · Se actualiza automáticamente cada mes.`;
+  })();
+
+  // Poblar selects
   DATA.confecciones.forEach(c => {
     const o = document.createElement('option'); o.value=c.id; o.textContent=c.nombre; confeSel.appendChild(o);
   });
   DATA.cortineros.forEach(c => {
-    const o = document.createElement('option'); o.value=c.id; o.textContent=`${c.nombre} ($${c.precioML}/ml)`; cortSel.appendChild(o);
+    const o = document.createElement('option'); o.value=c.id; o.textContent=`${c.nombre} ($${c.precio_ml}/ml)`; cortSel.appendChild(o);
   });
   DATA.motorizacion.forEach(m => {
-    const o = document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} ($${m.precio})`; motSel.appendChild(o);
+    const o = document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} ($${m.precio_pieza})`; motSel.appendChild(o);
   });
+
   confeSel.addEventListener('change', loadModelos);
-  [modSel, anchoSel, altoInp, cortSel, colorSel, motSel, accB, accS, accC, ...document.querySelectorAll('.extra')].forEach(el => {
-    el.addEventListener('change', calc);
-  });
+  [modSel, anchoSel, altoInp, cortSel, colorSel, motSel, accB, accS, accC, ...document.querySelectorAll('.extra')].forEach(el => el.addEventListener('change', calc));
+
   loadModelos();
 })();
 
@@ -261,7 +218,7 @@ function loadModelos(){
   modSel.innerHTML='';
   const c = DATA.confecciones.find(x=>x.id===confeSel.value) || DATA.confecciones[0];
   (c.modelos||[]).forEach(m=>{
-    const o=document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} (Alt máx ${m.alturaMax} m)`; modSel.appendChild(o);
+    const o=document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} (Alt máx ${m.altura_max} m)`; modSel.appendChild(o);
   });
   calc();
 }
@@ -269,48 +226,45 @@ function loadModelos(){
 function money(n){ return '$' + (Math.round(n*100)/100).toLocaleString('es-MX'); }
 
 function calc(){
-  const c = DATA.confecciones.find(x=>x.id===confeSel.value);
-  const m = (c?.modelos||[]).find(x=>x.id===modSel.value);
-  const ancho = Math.max(1, parseInt(anchoSel.value||'1',10));
+  const c = DATA.confecciones.find(x=>x.id===confeSel.value) || DATA.confecciones[0];
+  const m = (c.modelos||[]).find(x=>x.id===modSel.value) || (c.modelos||[])[0];
+  const ancho = Math.max(1, parseInt(anchoSel.value||'1',10)); // 1–6 m fijos
   const alto  = Math.max(1, parseFloat(altoInp.value||'1'));
+
+  let base = m.precios_ancho[String(ancho)] ?? m.precios_ancho["6"];
   let alerta = '';
-  let base = 0;
-
-  if(m && m.p[ancho]!=null){ base = m.p[ancho]; }
-  else if(m){ base = m.p[6]; } // fallback
-
-  // Altura máxima
   let aproximado = false;
-  if(m && alto > m.alturaMax){
+  if(alto > m.altura_max){
     aproximado = true;
-    alerta = `La altura (${alto} m) excede la altura máxima (${m.alturaMax} m) del modelo. Mostramos un precio aproximado. Requiere asesoría personalizada.`;
+    alerta = `La altura (${alto} m) excede la altura máxima (${m.altura_max} m). Mostramos precio aproximado. Requiere asesoría personalizada.`;
   }
 
-  // Cortinero por ML (usa ancho)
+  // Cortinero por ML
   let cortTotal = 0;
   if(cortSel.value){
     const cor = DATA.cortineros.find(x=>x.id===cortSel.value);
-    if(cor){ cortTotal = cor.precioML * ancho; }
+    if(cor){ cortTotal = cor.precio_ml * ancho; }
   }
 
-  // Motorización
+  // Motorización + hubs/controles opcionales
   let motTotal = 0;
   if(motSel.value){
     const mo = DATA.motorizacion.find(x=>x.id===motSel.value);
-    if(mo){ motTotal += mo.precio; }
+    if(mo){ motTotal += mo.precio_pieza; }
     document.querySelectorAll('.extra:checked').forEach(ch=>{
-      motTotal += (DATA.extras[ch.value]||0);
+      const ex = DATA.hubs_controles.find(x=>x.id===ch.value);
+      if(ex) motTotal += ex.precio;
     });
   }
 
-  // Accesorios
-  const accTotal = (parseInt(accB.value||0,10)*DATA.accesorios.bracket)
-                 + (parseInt(accS.value||0,10)*DATA.accesorios.splice)
-                 + (parseInt(accC.value||0,10)*DATA.accesorios.codo90);
+  // Accesorios por cantidad
+  const acc = DATA.accesorios.reduce((acc, a)=>{ acc[a.id]=a.precio; return acc; },{});
+  const accTotal = (parseInt(accB.value||0,10)*(acc['bracket_noche_dia']||0))
+                 + (parseInt(accS.value||0,10)*(acc['splice_empalme']||0))
+                 + (parseInt(accC.value||0,10)*(acc['codo_90']||0));
 
   const total = base + cortTotal + motTotal + accTotal;
 
-  // UI
   alertaEl.style.display = alerta ? 'block' : 'none';
   alertaEl.textContent = alerta;
   desgloseEl.innerHTML = `
@@ -322,20 +276,18 @@ function calc(){
   `;
   totalEl.textContent = money(total);
 
-  // WhatsApp
-  const tel = '5215579022386';
+  const tel = (DATA.whatsapp || '').replace(/[^\d]/g,'') || '5215579022386';
   const txt = encodeURIComponent(
 `Hola Decorapro, quiero este pedido:
-Confección: ${c?.nombre||'-'}
-Modelo/tela: ${m?.nombre||'-'}
+Confección: ${c?.nombre}
+Modelo/tela: ${m?.nombre}
 Medidas: ${ancho} m (ancho) × ${alto} m (alto)
 Cortinero: ${cortSel.options[cortSel.selectedIndex]?.text || 'N/A'} ${colorSel.value?('· '+colorSel.value):''}
 Motorización: ${motSel.options[motSel.selectedIndex]?.text || 'N/A'}
-Accesorios: Bracket ${accB.value}, Splice ${accS.value}, Codo90 ${accC.value}
-Total: ${money(total)} ${aproximado ? '(aprox.)' : ''}
-`
+Accesorios: Bracket ${document.querySelector('#acc_bracket').value}, Splice ${document.querySelector('#acc_splice').value}, Codo90 ${document.querySelector('#acc_codo').value}
+Total: ${money(total)} ${aproximado ? '(aprox.)' : ''}`
   );
-  waBtn.href = `https://wa.me/${tel}?text=${txt}`;
+  document.querySelector('#wa').href = `https://wa.me/${tel}?text=${txt}`;
 }
 </script>
 </body>
