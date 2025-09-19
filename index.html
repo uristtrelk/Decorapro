@@ -1,35 +1,57 @@
 <!doctype html>
 <html lang="es">
+<!-- Reemplaza el <head> y header existentes por este bloque -->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Decorapro · Cotizador Distribuidores (Cortinas)</title>
+  <title>Decorapro · Cotizador Distribuidores</title>
+  <link rel="icon" href="./assets/logo-verde.png" />
   <style>
-    :root { --bg:#0c0c0e; --card:#141417; --text:#f3f3f3; --muted:#bdbdbd; --cta:#c8a15a; }
-    body { margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif; background:var(--bg); color:var(--text); }
-    header, footer { padding:16px; text-align:center; background:linear-gradient(180deg,#111, #0c0c0e); }
-    .wrap { max-width:980px; margin:0 auto; padding:20px; }
-    .card { background:var(--card); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-    label { display:block; margin:10px 0 4px; color:var(--muted); font-size:0.95rem; }
-    select, input[type="number"] {
-      width:100%; padding:12px 14px; border-radius:10px; border:1px solid #2a2a2e; background:#101013; color:#f6f6f6;
+    /* PALETA DECORAPRO */
+    :root{
+      --verde:#7CB342; /* toma el verde del logo */
+      --bg:#0c0c0e;    /* fondo oscuro elegante */
+      --card:#141417;
+      --text:#F7F7F7;
+      --muted:#C9C9C9;
+      --borders:#2a2a2e;
     }
-    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    @media (max-width:720px){ .row { grid-template-columns:1fr; } }
-    .muted { color:var(--muted); font-size:0.9rem; }
-    .badge { display:inline-block; padding:4px 10px; border-radius:999px; background:#1e1e23; font-size:.85rem; color:#d8d8d8; margin-right:8px;}
-    .btn { display:inline-block; padding:12px 18px; border:none; border-radius:10px; background:var(--cta); color:#111; font-weight:700; cursor:pointer; text-decoration:none; }
-    .btn:disabled { opacity:.5; cursor:not-allowed; }
-    .total { font-size:1.7rem; font-weight:800; }
-    .warn { background:#291a1a; border-left:4px solid #e15; padding:10px 12px; border-radius:8px; margin:10px 0; }
-    .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
-    .fieldset { border:1px solid #2a2a2e; border-radius:12px; padding:10px; }
-    .legend { font-size:.9rem; color:#cfcfcf; margin-bottom:8px; }
-    .small { font-size:.85rem; }
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:18px 0;background:linear-gradient(180deg,#111, #0c0c0e);border-bottom:1px solid #1e1e22}
+    .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .brand img{height:46px;width:auto;display:block}
+    .brand h1{margin:0;font-size:1.25rem;font-weight:800;letter-spacing:.2px}
+    .brand small{display:block;color:var(--muted);font-weight:500}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#1e1e23;color:#d8d8d8;font-size:.8rem;margin-right:8px}
+    .muted{color:var(--muted)}
+    .card{background:var(--card);border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 10px 30px rgba(0,0,0,.25);border:1px solid var(--borders)}
+    label{display:block;margin:10px 0 6px;color:var(--muted);font-size:.95rem}
+    select,input[type="number"]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--borders);background:#101013;color:#fff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){.row{grid-template-columns:1fr}}
+    .legend{font-size:.92rem;color:#d8d8d8;margin-bottom:8px}
+    .small{font-size:.86rem}
+    .warn{background:#292116;border-left:4px solid #f2a900;padding:10px;border-radius:8px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:var(--verde);color:#1b1b1b;font-weight:800;text-decoration:none;border:0}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .total{font-size:1.8rem;font-weight:900}
+    footer{padding:16px 0;text-align:center;border-top:1px solid #1e1e22}
   </style>
 </head>
 <body>
 <header>
+  <div class="wrap">
+    <div class="brand">
+      <img src="./assets/logo-verde.png" alt="Decorapro" />
+      <div>
+        <h1>Decorapro · Cotizador Distribuidores</h1>
+        <small>Confecciones · Telas · Cortineros · Motorización</small>
+      </div>
+    </div>
+    <div id="vigencia" class="muted" style="margin-top:8px"></div>
+  </div>
+</header>
   <div class="wrap">
     <h1>Decorapro · Cotizador Distribuidores</h1>
     <div class="muted">Cortinas · Precios orientados a distribuidores · IVA incluido</div>
