@@ -186,39 +186,47 @@ const desgloseEl = $('#desglose'), totalEl = $('#total'), alertaEl = $('#alerta'
 let DATA = null;
 
 (async function init(){
-  const r = await fetch('./data/prices.json'); 
-  DATA = await r.json();
+  try{
+    const r = await fetch('./prices.json');   // <<--- AQUÍ EL CAMBIO
+    DATA = await r.json();
 
-  // Vigencia auto (último día del mes)
-  (function setVigencia(){
-    const d = new Date(), y=d.getFullYear(), m=d.getMonth()+1;
-    const last = new Date(y, m, 0).getDate();
-    document.querySelector('#vigencia').textContent =
-      `Vigencia: ${last}/${String(m).padStart(2,'0')}/${y} · Se actualiza automáticamente cada mes.`;
-  })();
+    // Vigencia: último día del mes
+    (function setVigencia(){
+      const d = new Date(), y = d.getFullYear(), m = d.getMonth()+1;
+      const last = new Date(y, m, 0).getDate();
+      document.querySelector('#vigencia').textContent =
+        `Vigencia: ${last}/${String(m).padStart(2,'0')}/${y} · Se actualiza automáticamente cada mes.`;
+    })();
 
-  // Poblar selects
-  DATA.confecciones.forEach(c => {
-    const o = document.createElement('option'); o.value=c.id; o.textContent=c.nombre; confeSel.appendChild(o);
-  });
-  DATA.cortineros.forEach(c => {
-    const o = document.createElement('option'); o.value=c.id; o.textContent=`${c.nombre} ($${c.precio_ml}/ml)`; cortSel.appendChild(o);
-  });
-  DATA.motorizacion.forEach(m => {
-    const o = document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} ($${m.precio_pieza})`; motSel.appendChild(o);
-  });
+    // Poblar selects
+    DATA.confecciones.forEach(c => {
+      const o = document.createElement('option'); o.value=c.id; o.textContent=c.nombre; confeSel.appendChild(o);
+    });
+    DATA.cortineros.forEach(c => {
+      const o = document.createElement('option'); o.value=c.id; o.textContent=`${c.nombre} ($${c.precio_ml}/ml)`; cortSel.appendChild(o);
+    });
+    DATA.motorizacion.forEach(m => {
+      const o = document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} ($${m.precio_pieza})`; motSel.appendChild(o);
+    });
 
-  confeSel.addEventListener('change', loadModelos);
-  [modSel, anchoSel, altoInp, cortSel, colorSel, motSel, accB, accS, accC, ...document.querySelectorAll('.extra')].forEach(el => el.addEventListener('change', calc));
+    confeSel.addEventListener('change', loadModelos);
+    [modSel, anchoSel, altoInp, cortSel, colorSel, motSel, accB, accS, accC, ...document.querySelectorAll('.extra')]
+      .forEach(el => el.addEventListener('change', calc));
 
-  loadModelos();
+    loadModelos();
+  }catch(e){
+    console.error('No se pudo cargar prices.json', e);
+  }
 })();
 
 function loadModelos(){
-  modSel.innerHTML='';
-  const c = DATA.confecciones.find(x=>x.id===confeSel.value) || DATA.confecciones[0];
-  (c.modelos||[]).forEach(m=>{
-    const o=document.createElement('option'); o.value=m.id; o.textContent=`${m.nombre} (Alt máx ${m.altura_max} m)`; modSel.appendChild(o);
+  modSel.innerHTML = '';
+  const c = DATA.confecciones.find(x => x.id === confeSel.value) || DATA.confecciones[0];
+  (c.modelos || []).forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.id;
+    o.textContent = `${m.nombre} (Alt máx ${m.altura_max} m)`; // nombres del JSON
+    modSel.appendChild(o);
   });
   calc();
 }
@@ -226,42 +234,41 @@ function loadModelos(){
 function money(n){ return '$' + (Math.round(n*100)/100).toLocaleString('es-MX'); }
 
 function calc(){
-  const c = DATA.confecciones.find(x=>x.id===confeSel.value) || DATA.confecciones[0];
-  const m = (c.modelos||[]).find(x=>x.id===modSel.value) || (c.modelos||[])[0];
-  const ancho = Math.max(1, parseInt(anchoSel.value||'1',10)); // 1–6 m fijos
-  const alto  = Math.max(1, parseFloat(altoInp.value||'1'));
+  const c = DATA.confecciones.find(x => x.id === confeSel.value) || DATA.confecciones[0];
+  const m = (c.modelos || []).find(x => x.id === modSel.value) || (c.modelos || [])[0];
+  const ancho = Math.max(1, parseInt(anchoSel.value || '1', 10)); // 1–6 fijos
+  const alto  = Math.max(1, parseFloat(altoInp.value || '1'));
 
-  let base = m.precios_ancho[String(ancho)] ?? m.precios_ancho["6"];
-  let alerta = '';
-  let aproximado = false;
-  if(alto > m.altura_max){
+  let base = m.precios_ancho[String(ancho)] ?? m.precios_ancho["6"]; // usa precios_ancho del JSON
+  let alerta = '', aproximado = false;
+  if (alto > m.altura_max) {
     aproximado = true;
     alerta = `La altura (${alto} m) excede la altura máxima (${m.altura_max} m). Mostramos precio aproximado. Requiere asesoría personalizada.`;
   }
 
   // Cortinero por ML
   let cortTotal = 0;
-  if(cortSel.value){
-    const cor = DATA.cortineros.find(x=>x.id===cortSel.value);
-    if(cor){ cortTotal = cor.precio_ml * ancho; }
+  if (cortSel.value) {
+    const cor = DATA.cortineros.find(x => x.id === cortSel.value);
+    if (cor) cortTotal = cor.precio_ml * ancho;
   }
 
-  // Motorización + hubs/controles opcionales
+  // Motorización + hubs/controles
   let motTotal = 0;
-  if(motSel.value){
-    const mo = DATA.motorizacion.find(x=>x.id===motSel.value);
-    if(mo){ motTotal += mo.precio_pieza; }
-    document.querySelectorAll('.extra:checked').forEach(ch=>{
-      const ex = DATA.hubs_controles.find(x=>x.id===ch.value);
-      if(ex) motTotal += ex.precio;
+  if (motSel.value) {
+    const mo = DATA.motorizacion.find(x => x.id === motSel.value);
+    if (mo) motTotal += mo.precio_pieza;
+    document.querySelectorAll('.extra:checked').forEach(ch => {
+      const ex = DATA.hubs_controles.find(x => x.id === ch.value);
+      if (ex) motTotal += ex.precio;
     });
   }
 
   // Accesorios por cantidad
-  const acc = DATA.accesorios.reduce((acc, a)=>{ acc[a.id]=a.precio; return acc; },{});
-  const accTotal = (parseInt(accB.value||0,10)*(acc['bracket_noche_dia']||0))
-                 + (parseInt(accS.value||0,10)*(acc['splice_empalme']||0))
-                 + (parseInt(accC.value||0,10)*(acc['codo_90']||0));
+  const price = id => (DATA.accesorios.find(a => a.id === id) || {}).precio || 0;
+  const accTotal = (parseInt(accB.value||0,10)*price('bracket_noche_dia'))
+                 + (parseInt(accS.value||0,10)*price('splice_empalme'))
+                 + (parseInt(accC.value||0,10)*price('codo_90'));
 
   const total = base + cortTotal + motTotal + accTotal;
 
@@ -287,7 +294,7 @@ Motorización: ${motSel.options[motSel.selectedIndex]?.text || 'N/A'}
 Accesorios: Bracket ${document.querySelector('#acc_bracket').value}, Splice ${document.querySelector('#acc_splice').value}, Codo90 ${document.querySelector('#acc_codo').value}
 Total: ${money(total)} ${aproximado ? '(aprox.)' : ''}`
   );
-  document.querySelector('#wa').href = `https://wa.me/${tel}?text=${txt}`;
+  waBtn.href = `https://wa.me/${tel}?text=${txt}`;
 }
 </script>
 </body>
