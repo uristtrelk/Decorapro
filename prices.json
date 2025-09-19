@@ -272,12 +272,12 @@
   "cortineros": [
     {
       "id": "cuadrado_techo",
-      "nombre": "Cuadrado · Techo",
+      "nombre": "Cuadrado Flex · Techo",
       "precio_ml": 360
     },
     {
       "id": "cuadrado_muro",
-      "nombre": "Cuadrado · Muro",
+      "nombre": "Cuadrado Flex · Muro",
       "precio_ml": 417
     },
     {
