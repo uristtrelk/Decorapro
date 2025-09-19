@@ -1,0 +1,516 @@
+{
+  "vigencia": "2025-09-30",
+  "iva_incluido": true,
+  "whatsapp": "+5215579022386",
+  "confecciones": [
+    {
+      "id": "plisado_frances",
+      "nombre": "Plisado Francés (3 Plitz)",
+      "modelos": [
+        {
+          "id": "empire_blackout",
+          "nombre": "Empire Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1485,
+            "2": 2835,
+            "3": 4184,
+            "4": 5534,
+            "5": 6884,
+            "6": 8234
+          }
+        },
+        {
+          "id": "cave_blackout",
+          "nombre": "Cave Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1074,
+            "2": 2051,
+            "3": 3027,
+            "4": 4003,
+            "5": 4980,
+            "6": 5956
+          }
+        },
+        {
+          "id": "glory",
+          "nombre": "Glory",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 913,
+            "2": 1744,
+            "3": 2574,
+            "4": 3404,
+            "5": 4234,
+            "6": 5064
+          }
+        },
+        {
+          "id": "whisper",
+          "nombre": "Whisper",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1015,
+            "2": 1938,
+            "3": 2861,
+            "4": 3784,
+            "5": 4708,
+            "6": 5631
+          }
+        },
+        {
+          "id": "bloom",
+          "nombre": "Bloom",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1120,
+            "2": 2138,
+            "3": 3157,
+            "4": 4175,
+            "5": 5193,
+            "6": 6212
+          }
+        },
+        {
+          "id": "calm_blackout",
+          "nombre": "Calm Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1370,
+            "2": 2616,
+            "3": 3862,
+            "4": 5107,
+            "5": 6353,
+            "6": 7599
+          }
+        },
+        {
+          "id": "magic_blackout",
+          "nombre": "Magic Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 16120,
+            "2": 3078,
+            "3": 4543,
+            "4": 6009,
+            "5": 7474,
+            "6": 8940
+          }
+        },
+        {
+          "id": "light",
+          "nombre": "Light",
+          "altura_max": 2.6,
+          "precios_ancho": {
+            "1": 1085,
+            "2": 2072,
+            "3": 3058,
+            "4": 4044,
+            "5": 5031,
+            "6": 6017
+          }
+        },
+        {
+          "id": "promise",
+          "nombre": "Promise",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 716,
+            "2": 1367,
+            "3": 2018,
+            "4": 2669,
+            "5": 3320,
+            "6": 3971
+          }
+        },
+        {
+          "id": "moon_blackout",
+          "nombre": "Moon Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1723,
+            "2": 3290,
+            "3": 4856,
+            "4": 6423,
+            "5": 7989,
+            "6": 9556
+          }
+        }
+      ]
+    },
+    {
+      "id": "onda_perfecta",
+      "nombre": "Onda Perfecta",
+      "modelos": [
+        {
+          "id": "empire_blackout",
+          "nombre": "Empire Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1663,
+            "2": 3175,
+            "3": 4687,
+            "4": 6198,
+            "5": 7710,
+            "6": 9222
+          }
+        },
+        {
+          "id": "cave_blackout",
+          "nombre": "Cave Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1203,
+            "2": 2297,
+            "3": 3390,
+            "4": 4484,
+            "5": 5577,
+            "6": 6671
+          }
+        },
+        {
+          "id": "glory",
+          "nombre": "Glory",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1023,
+            "2": 1953,
+            "3": 2883,
+            "4": 3812,
+            "5": 4742,
+            "6": 5672
+          }
+        },
+        {
+          "id": "whisper",
+          "nombre": "Whisper",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1137,
+            "2": 2171,
+            "3": 3205,
+            "4": 4239,
+            "5": 5272,
+            "6": 6306
+          }
+        },
+        {
+          "id": "bloom",
+          "nombre": "Bloom",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1255,
+            "2": 2395,
+            "3": 3536,
+            "4": 4676,
+            "5": 5817,
+            "6": 6957
+          }
+        },
+        {
+          "id": "calm_blackout",
+          "nombre": "Calm Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1535,
+            "2": 2930,
+            "3": 4325,
+            "4": 5720,
+            "5": 7115,
+            "6": 8511
+          }
+        }
+      ]
+    },
+    {
+      "id": "ojillos",
+      "nombre": "Ojillos",
+      "modelos": [
+        {
+          "id": "empire_blackout",
+          "nombre": "Empire Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1856,
+            "2": 3543,
+            "3": 5231,
+            "4": 6918,
+            "5": 8605,
+            "6": 10292
+          }
+        },
+        {
+          "id": "cave_blackout",
+          "nombre": "Cave Blackout",
+          "altura_max": 2.4,
+          "precios_ancho": {
+            "1": 1343,
+            "2": 2563,
+            "3": 3784,
+            "4": 5004,
+            "5": 6225,
+            "6": 7445
+          }
+        },
+        {
+          "id": "glory",
+          "nombre": "Glory",
+          "altura_max": 2.65,
+          "precios_ancho": {
+            "1": 1142,
+            "2": 2179,
+            "3": 3217,
+            "4": 4255,
+            "5": 5293,
+            "6": 6331
+          }
+        }
+      ]
+    }
+  ],
+  "cortineros": [
+    {
+      "id": "cuadrado_techo",
+      "nombre": "Cuadrado · Techo",
+      "precio_ml": 360
+    },
+    {
+      "id": "cuadrado_muro",
+      "nombre": "Cuadrado · Muro",
+      "precio_ml": 417
+    },
+    {
+      "id": "maleable_blanco",
+      "nombre": "Maleable · Blanco",
+      "precio_ml": 360
+    },
+    {
+      "id": "cordflex_muro_blanco",
+      "nombre": "Cordflex · Muro · Blanco",
+      "precio_ml": 420
+    },
+    {
+      "id": "cordflex_techo_blanco",
+      "nombre": "Cordflex · Techo · Blanco",
+      "precio_ml": 360
+    },
+    {
+      "id": "cordflex_muro_onda",
+      "nombre": "Cordflex · Muro (Onda Perfecta)",
+      "precio_ml": 550
+    },
+    {
+      "id": "cordflex_techo_onda",
+      "nombre": "Cordflex · Techo (Onda Perfecta)",
+      "precio_ml": 450
+    }
+  ],
+  "motorizacion": [
+    {
+      "id": "riel_recto_cableado",
+      "nombre": "Riel recto · Cableado",
+      "precio_pieza": 5800,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_curvo_cableado",
+      "nombre": "Riel curvo · Cableado",
+      "precio_pieza": 18000,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_recto_rf",
+      "nombre": "Riel recto · Radiofrecuencia",
+      "precio_pieza": 6500,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_curvo_rf",
+      "nombre": "Riel curvo · Radiofrecuencia",
+      "precio_pieza": 20000,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_recto_recargable",
+      "nombre": "Riel recto · Recargable",
+      "precio_pieza": 6800,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_curvo_recargable",
+      "nombre": "Riel curvo · Recargable",
+      "precio_pieza": 19000,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_recto_rf_recargable",
+      "nombre": "Riel recto · RF Recargable",
+      "precio_pieza": 7500,
+      "max_largo": 5.8
+    },
+    {
+      "id": "riel_curvo_rf_recargable",
+      "nombre": "Riel curvo · RF Recargable",
+      "precio_pieza": 21000,
+      "max_largo": 5.8
+    }
+  ],
+  "hubs_controles": [
+    {
+      "id": "vti_hub",
+      "nombre": "Vti Smart Hub",
+      "precio": 1100
+    },
+    {
+      "id": "hub_plus",
+      "nombre": "Vti Smart Hub Plus",
+      "precio": 3000
+    },
+    {
+      "id": "chic_2_6",
+      "nombre": "Chic 2/6 canales",
+      "precio": 600
+    },
+    {
+      "id": "wall_one_2_6",
+      "nombre": "Wall One 2/6 canales",
+      "precio": 900
+    },
+    {
+      "id": "escalate_16",
+      "nombre": "Escalate 16 canales (pantalla)",
+      "precio": 928
+    },
+    {
+      "id": "charger",
+      "nombre": "Cargador",
+      "precio": 300
+    },
+    {
+      "id": "panel_solar",
+      "nombre": "Panel solar",
+      "precio": 1550
+    }
+  ],
+  "accesorios": [
+    {
+      "id": "bracket_noche_dia",
+      "nombre": "Bracket noche/día",
+      "precio": 70,
+      "unidad": "pieza"
+    },
+    {
+      "id": "splice_empalme",
+      "nombre": "Splice / Empalme",
+      "precio": 85,
+      "unidad": "pieza"
+    },
+    {
+      "id": "codo_90",
+      "nombre": "Codo 90°",
+      "precio": 900,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_aluminio_1m",
+      "nombre": "Bastón aluminio 1.0 m",
+      "precio": 143,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_aluminio_1_25m",
+      "nombre": "Bastón aluminio 1.25 m",
+      "precio": 168,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_aluminio_1_5m",
+      "nombre": "Bastón aluminio 1.50 m",
+      "precio": 190,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_acero_blanco_1_25m",
+      "nombre": "Bastón acero blanco 1.25 m",
+      "precio": 235,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_acero_blanco_1_5m",
+      "nombre": "Bastón acero blanco 1.50 m",
+      "precio": 286,
+      "unidad": "pieza"
+    },
+    {
+      "id": "baston_acero_blanco_2m",
+      "nombre": "Bastón acero blanco 2.00 m",
+      "precio": 353,
+      "unidad": "pieza"
+    }
+  ],
+  "lineas_m2": [
+    {
+      "id": "dunes",
+      "nombre": "Dunes",
+      "modalidades": [
+        {
+          "id": "manual",
+          "nombre": "Manual",
+          "max_m2": 22,
+          "kit_motorizacion": 0
+        },
+        {
+          "id": "semi_traslucida_motorizada",
+          "nombre": "Semi traslúcida motorizada",
+          "max_m2": 12,
+          "kit_motorizacion": 12528
+        },
+        {
+          "id": "dimout_motorizada",
+          "nombre": "Dimout motorizada",
+          "max_m2": 9,
+          "kit_motorizacion": 12528
+        }
+      ],
+      "telas": [
+        {
+          "id": "key_west",
+          "nombre": "Key West",
+          "precio_m2": 1216
+        },
+        {
+          "id": "aurora",
+          "nombre": "Aurora",
+          "precio_m2": 1513
+        },
+        {
+          "id": "key_west_dimout",
+          "nombre": "Key West Dimout",
+          "precio_m2": 1567
+        },
+        {
+          "id": "plain",
+          "nombre": "Plain",
+          "precio_m2": 2172
+        },
+        {
+          "id": "line",
+          "nombre": "Line",
+          "precio_m2": 2172
+        },
+        {
+          "id": "nova",
+          "nombre": "Nova",
+          "precio_m2": 2378
+        },
+        {
+          "id": "plain_dimout",
+          "nombre": "Plain Dimout",
+          "precio_m2": 2914
+        }
+      ],
+      "tiempo_entrega_semanas": 3
+    }
+  ]
+}
